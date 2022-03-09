@@ -23,6 +23,11 @@ class AQUseCase(coroutineScope: CoroutineScope) {
 
 private var airQualityResult:MutableStateFlow<List<CityAQ>> = MutableStateFlow(ArrayList())
 private var aqHistoricalResult:MutableStateFlow<List<AQHistorical>> = MutableStateFlow(ArrayList())
+
+/**
+ * The merged flow sends the events one after the other
+ * using a set we update the latest ones and keep the remaining as it is .
+ * **/
 @FlowPreview
 fun getAirQuality(): Flow<List<CityAQ>> {
     historyCoroutineScope?.launch {
@@ -70,7 +75,9 @@ fun getAirQuality(): Flow<List<CityAQ>> {
         return aqHistoricalResult
     }
 
-
+/**
+ * A synchronous call to get the count from db.
+ * **/
     fun getAQCount():Long{
         return AirQualityRepositary().getAQCount()
     }

@@ -45,34 +45,24 @@ class AirQualitySockEvent(data: String) : BaseSockEvent(data) {
             aqHistoricalDB.cityId = idFromCity
             aqHistoricalDB.cityName = city
             aqHistoricalDB.timeStamp = timeDateInUTC
-
+            //do a binary search in repositary and update the history if the new data is greater
+            //than 30 secs
             val indexOf =
                 Collections.binarySearch(previousAirQualityData as ArrayList, airQualityDB)
             if (indexOf >= 0) {
                 val previousCityDB = previousAirQualityData[indexOf]
-                if(aqHistoricalDB.cityName.equals("Mumbai"))
-                {
-                    Logger.e("mumbai found ${previousCityDB.lastUpdatedAt} , ${airQualityDB.lastUpdatedAt}")
-                }
                 if (TimeUtils.is30SecondsApart(
                         previousCityDB.lastTimeHistoryupdated,
                         airQualityDB.lastUpdatedAt
                     )
                 ){
-                    if(aqHistoricalDB.cityName.equals("Mumbai"))
-                    {
-                        Logger.e("saving mumbai's aqi")
-                    }
+
                     airQualityDB.lastTimeHistoryupdated = timeDateInUTC
                     mHistoryList.add(aqHistoricalDB)
                 }else{
                     airQualityDB.lastTimeHistoryupdated = previousCityDB.lastTimeHistoryupdated
                 }
             }else{
-                if(aqHistoricalDB.cityName.equals("Mumbai"))
-                {
-                    Logger.e("mumbai found not found")
-                }
                 airQualityDB.lastTimeHistoryupdated = timeDateInUTC
                 mHistoryList.add(aqHistoricalDB)
             }
@@ -87,7 +77,9 @@ class AirQualitySockEvent(data: String) : BaseSockEvent(data) {
         return mAirQualityList
     }
 
-
+    /**
+     * create a user id using the city name
+     * **/
     fun getIdFromCity(city: String): String {
         var id = city.lowercase()
         id = id.removePrefix("new ")

@@ -18,6 +18,10 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         var viewModel = ViewModelProvider(this).get(AQViewModel::class.java)
+        /**
+         * check if data is already populated and move to next screen
+         * if not observe for change in db
+         * **/
         if (viewModel.getAQDATACount()>0)
         {
             lifecycleScope.launch {
@@ -29,9 +33,7 @@ class SplashActivity : AppCompatActivity() {
             aqData = viewModel.getAQData()
             aqData?.observe(this, {
                 if (it.size > 0) {
-
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
+                  moveToNextScreen()
                 }
             })
         }
@@ -39,8 +41,10 @@ class SplashActivity : AppCompatActivity() {
 
     fun moveToNextScreen()
     {
+        aqData?.removeObservers(this)
         startActivity(Intent(this, MainActivity::class.java))
         finish()
+
     }
 
     override fun onStop() {
