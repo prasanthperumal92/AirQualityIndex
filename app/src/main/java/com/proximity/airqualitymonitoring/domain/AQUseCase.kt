@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.proximity.airqualitymonitoring.data.models.CityAQDB
 import com.proximity.airqualitymonitoring.data.repositaries.AirQualityRepositary
+import com.proximity.airqualitymonitoring.data.repositaries.SettingRepositary
 import com.proximity.airqualitymonitoring.domain.model.AQHistorical
 import com.proximity.airqualitymonitoring.domain.model.CityAQ
 import kotlinx.coroutines.*
@@ -31,8 +32,15 @@ fun getAirQuality(): Flow<List<CityAQ>> {
             temp.addAll(it.map { CityAQ(it) })
             temp.addAll(value)
             value = ArrayList(temp)
-            value.sortWith(Comparator { p0, p1 -> p1.lastUpdatedAt.compareTo(p0.lastUpdatedAt) })
-            airQualityResult.emit(value)
+            if (SettingRepositary().shouldBringLatestToTop()) {
+                value.sortWith(Comparator { p0, p1 -> p1.lastUpdatedAt.compareTo(p0.lastUpdatedAt) })
+                airQualityResult.emit(value)
+            }else{
+                value.sortWith(Comparator { p0, p1 -> p0.cityName!!.compareTo(p1.cityName!!) })
+                airQualityResult.emit(ArrayList())
+                airQualityResult.emit(value)
+            }
+
         }
     }
 

@@ -12,10 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AirQualityMonitoring">
         <activity
+            android:name=".views.activity.HelpActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.activity.SplashActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,9 +27,7 @@
         <activity
             android:name=".views.activity.MainActivity"
             android:exported="false"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
 
         <meta-data
             android:name="preloaded_fonts"

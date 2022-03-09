@@ -39,8 +39,7 @@ class AQIListFragment:Fragment() {
                     })
                     binding.rvAQIList.adapter = adapter
                 }else{
-                    adapter!!.mList = it
-                    adapter!!.notifyDataSetChanged()
+                    adapter!!.updateData(it)
                 }
             }
         })

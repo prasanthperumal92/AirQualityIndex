@@ -34,6 +34,16 @@ public class AppSharedPref {
         edit.putInt(key,value);
         edit.apply();
     }
+    public  void save(String key,Boolean value)
+    {
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putBoolean(key,value);
+        edit.apply();
+    }
+    public Boolean getBoolean(String key,Boolean defaultValue)
+    {
+        return pref.getBoolean(key,defaultValue);
+    }
 
     public void deleteAll()
     {

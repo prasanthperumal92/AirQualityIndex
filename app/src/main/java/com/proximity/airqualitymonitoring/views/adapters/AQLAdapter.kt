@@ -16,6 +16,13 @@ class AQLAdapter(list:List<CityAQ>,interactionListener: AQLViewHolder.Interactio
         holder.bind(mList.get(position),mInteractionListener)
     }
 
+
+    fun updateData(list:List<CityAQ>)
+    {
+        mList = list
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int {
         return mList.size
     }

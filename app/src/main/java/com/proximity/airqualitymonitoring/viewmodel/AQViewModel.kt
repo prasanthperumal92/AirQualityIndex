@@ -5,8 +5,10 @@ import com.proximity.airqualitymonitoring.data.models.CityAQDB
 import com.proximity.airqualitymonitoring.domain.AQUseCase
 import com.proximity.airqualitymonitoring.domain.model.AQHistorical
 import com.proximity.airqualitymonitoring.domain.model.CityAQ
+import kotlinx.coroutines.FlowPreview
 
 class AQViewModel:ViewModel() {
+    @FlowPreview
     fun getAQData():LiveData<List<CityAQ>>{
        return AQUseCase(viewModelScope).getAirQuality().asLiveData(viewModelScope.coroutineContext)
     }
