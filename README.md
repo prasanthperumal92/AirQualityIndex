@@ -32,6 +32,8 @@ Class Diagram: https://bit.ly/3IV34ro
   
   <b>UI</b>
   Inspired by Zerodha Kite
+  
+  <b>Logo designed using [Canva](http://www.canva.com)</b>
 
 
 
